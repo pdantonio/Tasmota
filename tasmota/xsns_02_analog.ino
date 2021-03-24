@@ -410,8 +410,8 @@ void AdcEverySecond(void) {
     if (ADC_TEMP == Adc[idx].type) {
       int adc = AdcRead(Adc[idx].pin, 2);
       // Steinhart-Hart equation for thermistor as temperature sensor
-      double Rt = (adc * Adc[idx].param1) / (ANALOG_RANGE * ANALOG_V33 - (double)adc);  // Shelly param1 = 32000 (ANALOG_NTC_BRIDGE_RESISTANCE)
-      double BC = (double)Adc[idx].param3 / 10000;                                      // Shelly param3 = 3350 (ANALOG_NTC_B_COEFFICIENT)
+      double Rt = (adc * Adc[idx].param1) / (ANALOG_RANGE - (double)adc);  // Shelly param1 = 32000 (ANALOG_NTC_BRIDGE_RESISTANCE)
+      double BC = (double)Adc[idx].param3 ;                                      // Shelly param3 = 3350 (ANALOG_NTC_B_COEFFICIENT)
       double T = BC / (BC / ANALOG_T0 + TaylorLog(Rt / (double)Adc[idx].param2));       // Shelly param2 = 10000 (ANALOG_NTC_RESISTANCE)
       Adc[idx].temperature = ConvertTemp(TO_CELSIUS(T));
     }
